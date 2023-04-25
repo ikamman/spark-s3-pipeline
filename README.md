@@ -13,7 +13,10 @@ sbt clean assembly
 spark-submit \
   	--class "com.spark.home.assignment.S3App" \
   	--master "local[*]" \
-  	target/scala-2.13/s3-app.jar --input ./test_data --output ./target/result.tsv --local
+  	target/scala-2.13/s3-app.jar \
+			--input ./test_data \
+			--output ./target/result.tsv \
+			--local
 
 ```
 
@@ -27,14 +30,17 @@ sbt clean assembly
 spark-submit \
   	--class "com.spark.home.assignment.S3App" \
   	--master "local[*]" \
-  	target/scala-2.13/s3-app.jar --input /your/input/data/directory --output /your/result/file/path.tsv --local
+  	target/scala-2.13/s3-app.jar \
+			--input /your/input/data/directory \
+			--output /your/result/file/path.tsv \
+			--local
 
 ```
 
 ## Run pipeline on S3 bucket
 
-First of all you need to private proper credentials in your credentials file located in `~/.aws/credentials`. By default the pipeling will use `default` profile.
-If you want to use something other than default file use the option `--credentials`.
+First of all you need to private proper credentials in your credentials file located in `~/.aws/credentials`. By default the pipeline will use `default` profile.
+If you want to use custom file use option `--credentials` and provide full path of your file of choice.
 Full command below:
 
 ```bash
