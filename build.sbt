@@ -17,7 +17,6 @@ libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-sql" % "3.4.0" % Provided,
   "org.apache.spark" %% "spark-core" % "3.4.0" % Provided,
   "org.apache.hadoop" % "hadoop-aws" % "3.2.2",
-  // "com.amazonaws" % "aws-java-sdk-bundle" % "1.12.316",
   "org.rogach" %% "scallop" % "4.1.0",
   "org.scalatest" %% "scalatest" % "3.2.9" % Test
 )
