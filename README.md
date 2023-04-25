@@ -1,4 +1,4 @@
-# How to run the pipline
+# How to run the pipeline
 
 All commands assume that spark is correctly installed and available on your `$PATH`
 
