@@ -4,7 +4,7 @@ All commands assume that spark is correctly installed and available on your `$PA
 
 ## Local pipeline run with provided test files
 
-All test files are located in `./test_data` directory. To run the spark pipeling us the following commands:
+All test files are located in `./test_data` directory. To run the spark pipeline use the following commands:
 ```bash
 # build project and produce fat jar file
 sbt clean assembly
