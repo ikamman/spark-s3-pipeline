@@ -5,7 +5,7 @@ import com.amazonaws.auth.DefaultAWSCredentialsProviderChain
 import com.amazonaws.auth.profile.ProfileCredentialsProvider
 import com.amazonaws.auth.AWSCredentialsProvider
 
-object CredentialsHelper {
+object Credentials {
 
   val defaultProvider = new DefaultAWSCredentialsProviderChain()
 

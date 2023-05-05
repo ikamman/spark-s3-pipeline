@@ -1,10 +1,6 @@
 package com.spark.home.assignment
 
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.types._
-import org.apache.spark.sql.functions._
-import org.apache.spark.sql._
-import org.apache.spark._
 
 object S3App extends App {
   val argConf = new ArgConfig(args)
@@ -16,7 +12,7 @@ object S3App extends App {
       .getOrCreate()
 
   if (!argConf.local.getOrElse(false)) {
-    val credentials = CredentialsHelper.load(
+    val credentials = Credentials.load(
       argConf.credentials.toOption,
       argConf.profile.toOption
     )
@@ -34,13 +30,15 @@ object S3App extends App {
   }
 
   import Processing._
+  import DataReader._
+  import DataWriter._
 
-  val tsvs = DataReader.read(s"${argConf.input()}/*.tsv", "\t")
-  val csvs = DataReader.read(s"${argConf.input()}/*.csv", ",")
+  val tsvs = read(s"${argConf.input()}/*.tsv", "\t")
+  val csvs = read(s"${argConf.input()}/*.csv", ",")
 
-  val result = FindKeyMaxValueOddCounts.process(tsvs.union(csvs))
+  val result = findMaxOddValueCountForKey(tsvs.union(csvs))
 
-  DataWriter.write(result, argConf.output())
+  write(result, argConf.output())
 
   spark.stop()
 }

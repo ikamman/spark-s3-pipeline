@@ -1,21 +1,17 @@
 package com.spark.home.assignment
 
-import org.apache.spark.sql._
-import org.apache.spark.sql.types._
-import org.apache.spark.sql.functions._
-
-trait Processing {
-  def process(input: DataFrame): DataFrame
-}
+import org.apache.spark.rdd.RDD
 
 object Processing {
 
-  object FindKeyMaxValueOddCounts extends Processing {
+  val seqOp = (_: Int, it: Iterable[KeyValue]) => it.size
+  val combOp = (fst: Int, snd: Int) => fst + snd
 
-    def process(input: DataFrame): DataFrame = input
-      .groupBy("key", "value")
-      .agg(count("*").as("count"))
-      .filter(col("count") mod 2 !== 0)
-      .select(col("key"), col("value"))
-  }
+  def findMaxOddValueCountForKey(
+      input: RDD[KeyValue]
+  ): RDD[KeyValue] = input
+    .groupBy(identity)
+    .aggregateByKey(0)(seqOp, combOp)
+    .filter(_._2 % 2 != 0)
+    .map(_._1)
 }

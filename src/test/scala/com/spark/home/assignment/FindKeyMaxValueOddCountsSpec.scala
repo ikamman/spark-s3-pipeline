@@ -1,12 +1,7 @@
 package com.spark.home.assignment
 
-import org.scalatest.flatspec._
-import org.scalatest.matchers.should._
-import org.apache.spark.sql.types.StructType
-import org.apache.spark.sql.types.StructField
-import org.apache.spark.sql.types.IntegerType
-import org.apache.hadoop.shaded.org.eclipse.jetty.websocket.common.frames.DataFrame
-import org.apache.spark.sql.Row
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 import scala.jdk.CollectionConverters._
 
@@ -17,40 +12,34 @@ class FindKeyMaxValueOddCountsSpec
 
   import Processing._
 
-  "FindKeyMaxValueOddCounts" should "found odd key values counts" in {
+  "findMaxOddValueCountForKey" should "found odd key values counts" in {
 
-    val df = session.createDataFrame(
+    val rdd = session.sparkContext.parallelize(
       List(
-        Row(1, 2),
-        Row(1, 2),
-        Row(1, 2),
-        Row(1, 1),
-        Row(1, 1),
-        Row(1, 3),
-        Row(1, 3),
-        Row(2, 0),
-        Row(2, 0),
-        Row(2, 1),
-        Row(2, 1),
-        Row(2, 1),
-        Row(3, 0),
-        Row(3, 1),
-        Row(3, 1)
-      ).asJava,
-      StructType(
-        Array(
-          StructField("key", IntegerType, false),
-          StructField("value", IntegerType, false)
-        )
+        (1, 2),
+        (1, 2),
+        (1, 2),
+        (1, 1),
+        (1, 1),
+        (1, 3),
+        (1, 3),
+        (2, 0),
+        (2, 0),
+        (2, 1),
+        (2, 1),
+        (2, 1),
+        (3, 0),
+        (3, 1),
+        (3, 1)
       )
     )
 
-    val result = FindKeyMaxValueOddCounts.process(df)
+    val result = findMaxOddValueCountForKey(rdd)
 
-    result.collect() should contain theSameElementsAs Array(
-      Row(1, 2),
-      Row(2, 1),
-      Row(3, 0)
+    result.collect() should contain theSameElementsAs List(
+      (1, 2),
+      (2, 1),
+      (3, 0)
     )
   }
 }
